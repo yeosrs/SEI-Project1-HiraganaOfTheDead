@@ -109,6 +109,9 @@ function createZombies(stage = 1) {
     zombieCSS.setAttribute("class", "zombie");
     zombieCSS.setAttribute("id", `zombie${hiraganaArr[i]}`);
     zombieCSS.innerText = hiraganaArr[i];
+    const hiraSticker = document.createElement("div");
+    hiraSticker.innerHTML = `<img class="hiraSticker" src="images/${hiraganaArr[i]}.jpeg"/>`;
+    zombieCSS.append(hiraSticker);
     const pos = Math.floor(Math.random() * (4 - 2 + 1) + 2);
     document
       .querySelector(`#row${zombie.counter}pos${pos}`)
