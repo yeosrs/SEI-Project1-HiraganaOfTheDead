@@ -1,15 +1,10 @@
 "use strict";
 
 /*  basic game logic
-    game object is created
-    game creates player and array of zombies
-    game draws UI, with 3 lanes
     game gives a primer on hiragana involved
     prompt() is like alert, 
     but it opens up a window with a message AND a place to enter some text
     player indicates ready
-    game state shifts to start
-    zombies appear on screen
     Above for MVP, below for extras
     add in 2 extra lanes for a total of 5
     high score stored in local storage?
@@ -21,6 +16,7 @@
 const hiraganaArr = ["a", "i", "u", "e", "o"];
 const zombieArr = [];
 let timeout = 0; //var to prevent infinite loops in zombieMotor
+let stage = 1;
 
 const player = {
   // player object will have 3 parameters,
@@ -90,8 +86,11 @@ function createStage(stage = 1) {
     btn.innerText = hiraganaArr[i];
     document.querySelector("#controlPanel").appendChild(btn);
   }
+  const stats = document.createElement("div");
+  stats.setAttribute("id", "stats");
+  stats.innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
+  controlPanel.appendChild(stats);
 
-  // Call, draw zombies on screen,
   // assign each zombie a random letter, draw associated hiragana on zombie
   // pass lives, ammo and points arguments from previous totals to startGame
 }
@@ -119,6 +118,9 @@ function createZombies(stage = 1) {
 
 function playerBitten() {
   player.lives--;
+  document.querySelector(
+    "#stats"
+  ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   if (player.lives === 0) {
     alert("Player has died! Game over");
   }
@@ -131,6 +133,9 @@ function shootZombie(shotLetter) {
   } else {
     player.ammo--;
     console.log("Bang! Ammo left: " + player.ammo);
+    document.querySelector(
+      "#stats"
+    ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
     for (let i = 0; i < zombieArr.length; i++) {
       //run through array and find corressponding zombie
       if (shotLetter == zombieArr[i].characterValue) {
@@ -140,6 +145,9 @@ function shootZombie(shotLetter) {
         zombieArr.splice(i, 1);
         document.querySelector(`#zombie${shotLetter}`).remove();
         player.points += 100;
+        document.querySelector(
+          "#stats"
+        ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
       }
     }
   }

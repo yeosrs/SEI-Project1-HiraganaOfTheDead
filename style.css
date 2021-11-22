@@ -8,8 +8,8 @@
 .position {
   /* background: greenyellow; */
   margin: 30px;
-  width: 30px;
-  height: 30px;
+  width: 5px;
+  height: 5px;
   margin-top: 1px;
   text-align: center;
   display: inline-block;
@@ -35,7 +35,6 @@
   left: 0;
   right: 0;
   top: 0;
-  /* background-color: cyan; */
   background-image: url("../images/emptyStation1.jpeg");
   background-position: center;
   background-size: cover;
@@ -49,18 +48,18 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  background-color: darkblue;
+  background-image: linear-gradient(crimson, black);
 }
 
 .playRow {
   height: 3%;
-  /* border: 1px solid black; */
+  /* border: 1px solid cyan; */
   text-align: center;
 }
 
 .spacerRow {
   height: 50%;
-  /* border: 1px solid black; */
+  /* border: 1px solid white; */
 }
 
 .hirBtn {
@@ -74,4 +73,9 @@
   width: 40px;
   background-color: indigo;
   color: antiquewhite;
+}
+
+#stats {
+  color: aquamarine;
+  border: 1px solid white;
 }
