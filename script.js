@@ -37,7 +37,7 @@ class Zombie {
   //choosing to make zombies a class to be able to create zombies when required
   constructor(
     characterValue = "", // a, i, u, e, o for a start
-    counter = Math.floor(Math.random() * 8) + 2
+    counter = Math.ceil(Math.random() * 9) + 6
     //counts seconds to reach player, once counter reaches zero, zombie will bite() player
   ) {
     (this.characterValue = characterValue), (this.counter = counter);
@@ -51,7 +51,7 @@ class Zombie {
 
 //create game object
 
-function createStage() {
+function createStage(stage = 1) {
   // Split window into the playPanel where zombies will appear
   // and controlPanel, where user's buttons will appear
   const mainPanel = document.createElement("div");
@@ -67,12 +67,12 @@ function createStage() {
   // spacerRow to prevent effect of zombies floating down from the sky
   spacerRow.setAttribute("class", "spacerRow");
   playPanel.appendChild(spacerRow);
-  for (let i = 10; i > 0; i--) {
+  for (let i = 15; i > -1; i--) {
     // split playPanel into 10 divs to mimic rows
     const divRow = document.createElement("div");
     divRow.setAttribute("class", "playRow");
     divRow.setAttribute("id", `row${i}`);
-    playPanel.append(divRow);
+    playPanel.appendChild(divRow);
     for (let j = 0; j < 7; j++) {
       // create 7 divs for each row to mimic columns,
       // only middle 5 will be used. the 2 at the ends will be used as spacers
@@ -81,6 +81,14 @@ function createStage() {
       position.setAttribute("id", `row${i}pos${j}`);
       divRow.appendChild(position);
     }
+  }
+
+  const numToCreate = 5 * stage;
+  for (let i = 0; i < numToCreate; i++) {
+    const btn = document.createElement("button");
+    btn.setAttribute("class", "hirBtn");
+    btn.innerText = hiraganaArr[i];
+    document.querySelector("#controlPanel").appendChild(btn);
   }
 
   // Call, draw zombies on screen,
@@ -95,28 +103,42 @@ function createZombies(stage = 1) {
     console.log("creating zombie " + (i + 1));
     const zombie = new Zombie(hiraganaArr[i]);
     zombieArr.push(zombie);
+    const zombieCSS = document.createElement("div");
+    // create css equivalents of zombies,
+    // and assign them in row according to their counter so player can see how far they are,
+    // and assign them random positions in their row
+    zombieCSS.setAttribute("class", "zombie");
+    zombieCSS.setAttribute("id", `zombie${hiraganaArr[i]}`);
+    zombieCSS.innerText = hiraganaArr[i];
+    const pos = Math.floor(Math.random() * (4 - 2 + 1) + 2);
+    document
+      .querySelector(`#row${zombie.counter}pos${pos}`)
+      .appendChild(zombieCSS);
   }
 }
 
 function playerBitten() {
   player.lives--;
   if (player.lives === 0) {
-    console.log("Player has died! Game over");
+    alert("Player has died! Game over");
   }
 }
 
 function shootZombie(shotLetter) {
   if (player.ammo === 0) {
+    //check if player still has ammo
     console.log("Out of ammo!");
   } else {
     player.ammo--;
     console.log("Bang! Ammo left: " + player.ammo);
     for (let i = 0; i < zombieArr.length; i++) {
+      //run through array and find corressponding zombie
       if (shotLetter == zombieArr[i].characterValue) {
         console.log(
           "zombie with charVal removed " + zombieArr[i].characterValue
         );
         zombieArr.splice(i, 1);
+        document.querySelector(`#zombie${shotLetter}`).remove();
         player.points += 100;
       }
     }
@@ -126,10 +148,22 @@ function shootZombie(shotLetter) {
 function zombieMotor() {
   setTimeout(function () {
     for (let i = 0; i < zombieArr.length; i++) {
+      const pos = Math.floor(Math.random() * (4 - 2 + 1) + 2);
       // for every zombie, will move all zombies 1 step every second
-      zombieArr[i].counter--; // counter -1 every second
+      if (zombieArr[i].counter > 0) {
+        zombieArr[i].counter--; // counter -1 every second until it reaches 0
+        //move zombieCSS object until it reaches row 0
+        document
+          .querySelector(`#row${zombieArr[i].counter}pos${pos}`)
+          .appendChild(
+            document.querySelector(`#zombie${zombieArr[i].characterValue}`)
+          );
+      }
       console.log(
-        "Zombie " + zombieArr[i] + " counter " + zombieArr[i].counter
+        "Zombie " +
+          zombieArr[i].characterValue +
+          " counter " +
+          zombieArr[i].counter
       );
 
       if (zombieArr[i].counter <= 0) {
