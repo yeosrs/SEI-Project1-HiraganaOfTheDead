@@ -37,7 +37,7 @@ class Zombie {
   //choosing to make zombies a class to be able to create zombies when required
   constructor(
     characterValue = "", // a, i, u, e, o for a start
-    counter = Math.floor(Math.random() * 10) + 2
+    counter = Math.floor(Math.random() * 8) + 2
     //counts seconds to reach player, once counter reaches zero, zombie will bite() player
   ) {
     (this.characterValue = characterValue), (this.counter = counter);
@@ -52,14 +52,44 @@ class Zombie {
 //create game object
 
 function createStage() {
-  // Lay out windows, draw letter squares on user panel
-  // draw invisible grids for zombies to be attached to
+  // Split window into the playPanel where zombies will appear
+  // and controlPanel, where user's buttons will appear
+  const mainPanel = document.createElement("div");
+  mainPanel.setAttribute("id", "mainPanel");
+  document.querySelector("body").append(mainPanel);
+  const playPanel = document.createElement("div");
+  playPanel.id = "playPanel";
+  mainPanel.appendChild(playPanel);
+  const controlPanel = document.createElement("div");
+  controlPanel.id = "controlPanel";
+  mainPanel.appendChild(controlPanel);
+  const spacerRow = document.createElement("div");
+  // spacerRow to prevent effect of zombies floating down from the sky
+  spacerRow.setAttribute("class", "spacerRow");
+  playPanel.appendChild(spacerRow);
+  for (let i = 10; i > 0; i--) {
+    // split playPanel into 10 divs to mimic rows
+    const divRow = document.createElement("div");
+    divRow.setAttribute("class", "playRow");
+    divRow.setAttribute("id", `row${i}`);
+    playPanel.append(divRow);
+    for (let j = 0; j < 7; j++) {
+      // create 7 divs for each row to mimic columns,
+      // only middle 5 will be used. the 2 at the ends will be used as spacers
+      const position = document.createElement("div");
+      position.setAttribute("class", "position");
+      position.setAttribute("id", `row${i}pos${j}`);
+      divRow.appendChild(position);
+    }
+  }
+
   // Call, draw zombies on screen,
   // assign each zombie a random letter, draw associated hiragana on zombie
   // pass lives, ammo and points arguments from previous totals to startGame
 }
 
 function createZombies(stage = 1) {
+  //creating zombies, increase 5 per stage
   const numToCreate = 5 * stage;
   for (let i = 0; i < numToCreate; i++) {
     console.log("creating zombie " + (i + 1));
@@ -87,6 +117,7 @@ function shootZombie(shotLetter) {
           "zombie with charVal removed " + zombieArr[i].characterValue
         );
         zombieArr.splice(i, 1);
+        player.points += 100;
       }
     }
   }
@@ -125,5 +156,7 @@ function startGame(lives = 5, ammo = 20, points = 0) {
 const whatBtn = (e) => {
   player.shoot(e.target.innerText);
 };
+
+createStage();
 
 document.addEventListener("click", whatBtn);

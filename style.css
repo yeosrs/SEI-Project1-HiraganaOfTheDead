@@ -1,12 +1,57 @@
-.rhombus {
-  background: black;
-  margin: 100px auto;
-  border: 1px solid white;
-  width: 300px;
-  height: 300px;
+/* body {
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+} */
 
-  margin-top: 100px;
+.position {
+  background: greenyellow;
+  margin: 30px;
+  width: 30px;
+  height: 30px;
+  margin-top: 1px;
+  text-align: center;
+  display: inline-block;
+}
 
-  transform: rotate(45deg) scaleY(3);
-  transform-origin: 0 50%;
+#mainPanel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#playPanel {
+  height: 75%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: cyan;
+}
+
+#controlPanel {
+  height: 25%;
+  width: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: darkblue;
+}
+
+.playRow {
+  height: 4%;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.spacerRow {
+  height: 58%;
+  border: 1px solid black;
 }
