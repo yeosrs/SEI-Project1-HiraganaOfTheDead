@@ -17,6 +17,7 @@ const hiraganaArr = ["a", "i", "u", "e", "o"];
 const zombieArr = [];
 let timeout = 0; //var to prevent infinite loops in zombieMotor
 let stage = 1;
+let playerAlive = true;
 
 const player = {
   // player object will have 3 parameters,
@@ -44,8 +45,6 @@ class Zombie {
     playerBitten();
   }
 }
-
-//create game object
 
 function createStage(stage = 1) {
   // Split window into the playPanel where zombies will appear
@@ -125,7 +124,8 @@ function playerBitten() {
     "#stats"
   ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   if (player.lives === 0) {
-    alert("Player has died! Game over");
+    playerAlive = false;
+    setTimeout(() => alert("Player has died! Game over"), 0);
   }
 }
 
@@ -151,6 +151,11 @@ function shootZombie(shotLetter) {
         document.querySelector(
           "#stats"
         ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
+      }
+      if (zombieArr.length === 0) {
+        stage++;
+        //setTimeout(() => alert("Stage Cleared!"), 0);
+        window.location.replace("index.html");
       }
     }
   }
@@ -189,12 +194,10 @@ function zombieMotor() {
   }, 1000);
 }
 
-function startGame(lives = 5, ammo = 20, points = 0) {
+function startGame(stage) {
   // start the game, call zombieMotor
-  player.lives = lives;
-  player.ammo = ammo;
-  player.points = points;
-  createZombies();
+  createStage(stage); //create the game windows
+  createZombies(stage);
   zombieMotor();
 }
 
@@ -202,6 +205,6 @@ const whatBtn = (e) => {
   player.shoot(e.target.innerText);
 };
 
-createStage();
+startGame(stage);
 
 document.addEventListener("click", whatBtn);

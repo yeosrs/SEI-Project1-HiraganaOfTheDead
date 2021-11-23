@@ -76,6 +76,7 @@
   background-image: url("../images/zombie.jpeg");
   background-position: center;
   background-size: cover;
+  position: relative;
 }
 
 #stats {
@@ -84,6 +85,9 @@
 }
 
 .hiraSticker {
-  max-width: 40px;
+  width: 70%;
+  position: absolute;
+  bottom: 0;
+  
 }
 
