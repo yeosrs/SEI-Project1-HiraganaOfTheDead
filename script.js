@@ -12,8 +12,14 @@
     Special zombies with top ups of ammo, life?
     Boss monsters that have multiple hiraganas, gain life if wrong hiragana pressed
 */
-const hiraganaArr = ["a", "i", "u", "e", "o"];
-const zombieArr = [];
+const hiraganaArr = ["a", "i", "u", "e", "o", "ka", "ki", "ku", "ke", "ko"]; // to store available hiragana
+const zombieArr = []; //to store created zombies
+const blurbArr = [
+  "",
+  "You are travelling alone in Tokyo on an Japanese Language immersion trip. It's a really fun trip until one morning, you step out of your AirBnb and find the streets deserted except for zombies! With your quick wits you notice that each zombie is holding a card with Hiragana (Japanese alphabet) in its left hand and identifying the Hiragana kils the zombie. With your trusty Hiragana flashcards in hand, you set out to find a way out of the city...",
+  "blurb2",
+  "blurb3",
+]; //to store the  blurbs for each stage
 let timeout = 0; //var to prevent infinite loops in zombieMotor
 let stage = 1;
 
@@ -87,13 +93,17 @@ function createStage(stage) {
   stats.setAttribute("id", "stats");
   stats.innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   controlPanel.appendChild(stats);
-
+  //creation of the modal that will appear before each stage
   const modal = document.createElement("div");
   modal.setAttribute("class", "modal");
   modal.setAttribute("id", "modal");
   const modalContent = document.createElement("div");
   modalContent.setAttribute("class", "modal-content");
   modal.append(modalContent);
+  const blurb = document.createElement("div");
+  blurb.setAttribute("class", "blurb");
+  blurb.innerText = blurbArr[stage];
+  modalContent.append(blurb);
   const continueButton = document.createElement("button");
   continueButton.innerText = "Continue";
   modalContent.append(continueButton);
@@ -158,6 +168,8 @@ function shootZombie(shotLetter) {
         ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
       }
       if (zombieArr.length === 0) {
+        player.ammo += 7;
+        player.lives += 1;
         stage++;
         //initGame(stage); //call initGame again
       }
