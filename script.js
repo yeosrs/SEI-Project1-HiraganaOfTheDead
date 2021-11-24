@@ -12,12 +12,10 @@
     Special zombies with top ups of ammo, life?
     Boss monsters that have multiple hiraganas, gain life if wrong hiragana pressed
 */
-
 const hiraganaArr = ["a", "i", "u", "e", "o"];
 const zombieArr = [];
 let timeout = 0; //var to prevent infinite loops in zombieMotor
 let stage = 1;
-let playerAlive = true;
 
 const player = {
   // player object will have 3 parameters,
@@ -46,7 +44,7 @@ class Zombie {
   }
 }
 
-function createStage(stage = 1) {
+function createStage(stage) {
   // Split window into the playPanel where zombies will appear
   // and controlPanel, where user's buttons will appear
   const mainPanel = document.createElement("div");
@@ -90,11 +88,19 @@ function createStage(stage = 1) {
   stats.innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   controlPanel.appendChild(stats);
 
-  // assign each zombie a random letter, draw associated hiragana on zombie
-  // pass lives, ammo and points arguments from previous totals to startGame
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "modal");
+  modal.setAttribute("id", "modal");
+  const modalContent = document.createElement("div");
+  modalContent.setAttribute("class", "modal-content");
+  modal.append(modalContent);
+  const continueButton = document.createElement("button");
+  continueButton.innerText = "Continue";
+  modalContent.append(continueButton);
+  mainPanel.append(modal);
 }
 
-function createZombies(stage = 1) {
+function createZombies(stage) {
   //creating zombies, increase 5 per stage
   const numToCreate = 5 * stage;
   for (let i = 0; i < numToCreate; i++) {
@@ -124,7 +130,6 @@ function playerBitten() {
     "#stats"
   ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   if (player.lives === 0) {
-    playerAlive = false;
     setTimeout(() => alert("Player has died! Game over"), 0);
   }
 }
@@ -154,8 +159,7 @@ function shootZombie(shotLetter) {
       }
       if (zombieArr.length === 0) {
         stage++;
-        //setTimeout(() => alert("Stage Cleared!"), 0);
-        window.location.replace("index.html");
+        //initGame(stage); //call initGame again
       }
     }
   }
@@ -194,17 +198,29 @@ function zombieMotor() {
   }, 1000);
 }
 
-function startGame(stage) {
+function startGame() {
   // start the game, call zombieMotor
-  createStage(stage); //create the game windows
-  createZombies(stage);
   zombieMotor();
 }
 
+function initGame(stage) {
+  createStage(stage); //create the game windows
+  createZombies(stage);
+}
+
 const whatBtn = (e) => {
-  player.shoot(e.target.innerText);
+  switch (e.target.innerText) {
+    case "Continue":
+      document.getElementById("modal").style.display = "none";
+      startGame();
+      break;
+
+    default:
+      player.shoot(e.target.innerText);
+      break;
+  }
 };
 
-startGame(stage);
+initGame(stage);
 
 document.addEventListener("click", whatBtn);
