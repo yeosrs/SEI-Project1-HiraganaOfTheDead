@@ -49,39 +49,60 @@ class Zombie {
     playerBitten();
   }
 }
+function createModal() {
+  //creation of the modal that will appear before each stage
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "modal");
+  modal.setAttribute("id", "modal");
+  const blurb = document.createElement("div");
+  blurb.setAttribute("class", "blurb");
+  blurb.setAttribute("id", "blurb");
+  mainPanel.append(modal);
+  const modalContent = document.createElement("div");
+  modalContent.setAttribute("class", "modal-content");
+  modalContent.setAttribute("id", "modal-content");
+  modal.append(modalContent);
+  blurb.innerText = blurbArr[stage];
+  modalContent.append(blurb);
+  const continueButton = document.createElement("button");
+  continueButton.innerText = "Continue";
+  modalContent.append(continueButton);
+}
 
 function createStage(stage) {
   // Split window into the playPanel where zombies will appear
   // and controlPanel, where user's buttons will appear
-  const mainPanel = document.createElement("div");
-  mainPanel.setAttribute("id", "mainPanel");
-  document.querySelector("body").append(mainPanel);
-  const playPanel = document.createElement("div");
-  playPanel.id = "playPanel";
-  mainPanel.appendChild(playPanel);
-  const controlPanel = document.createElement("div");
-  controlPanel.id = "controlPanel";
-  mainPanel.appendChild(controlPanel);
-  const spacerRow = document.createElement("div");
-  // spacerRow to prevent effect of zombies floating down from the sky
-  spacerRow.setAttribute("class", "spacerRow");
-  playPanel.appendChild(spacerRow);
-  for (let i = 15; i > -1; i--) {
-    // split playPanel into 10 divs to mimic rows
-    const divRow = document.createElement("div");
-    divRow.setAttribute("class", "playRow");
-    divRow.setAttribute("id", `row${i}`);
-    playPanel.appendChild(divRow);
-    for (let j = 0; j < 7; j++) {
-      // create 7 divs for each row to mimic columns,
-      // only middle 5 will be used. the 2 at the ends will be used as spacers
-      const position = document.createElement("div");
-      position.setAttribute("class", "position");
-      position.setAttribute("id", `row${i}pos${j}`);
-      divRow.appendChild(position);
+  if (stage === 1) {
+    const mainPanel = document.createElement("div");
+    mainPanel.setAttribute("id", "mainPanel");
+    document.querySelector("body").append(mainPanel);
+    const playPanel = document.createElement("div");
+    playPanel.id = "playPanel";
+    mainPanel.appendChild(playPanel);
+    const controlPanel = document.createElement("div");
+    controlPanel.id = "controlPanel";
+    mainPanel.appendChild(controlPanel);
+    const spacerRow = document.createElement("div");
+    // spacerRow to prevent effect of zombies floating down from the sky
+    spacerRow.setAttribute("class", "spacerRow");
+    playPanel.appendChild(spacerRow);
+    for (let i = 15; i > -1; i--) {
+      // split playPanel into 10 divs to mimic rows
+      const divRow = document.createElement("div");
+      divRow.setAttribute("class", "playRow");
+      divRow.setAttribute("id", `row${i}`);
+      playPanel.appendChild(divRow);
+      for (let j = 0; j < 7; j++) {
+        // create 7 divs for each row to mimic columns,
+        // only middle 5 will be used. the 2 at the ends will be used as spacers
+        const position = document.createElement("div");
+        position.setAttribute("class", "position");
+        position.setAttribute("id", `row${i}pos${j}`);
+        divRow.appendChild(position);
+      }
     }
   }
-
+  document.querySelector("#controlPanel").innerHTML = "";
   const numToCreate = 5 * stage;
   for (let i = 0; i < numToCreate; i++) {
     const btn = document.createElement("button");
@@ -93,21 +114,26 @@ function createStage(stage) {
   stats.setAttribute("id", "stats");
   stats.innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   controlPanel.appendChild(stats);
-  //creation of the modal that will appear before each stage
-  const modal = document.createElement("div");
-  modal.setAttribute("class", "modal");
-  modal.setAttribute("id", "modal");
-  const modalContent = document.createElement("div");
-  modalContent.setAttribute("class", "modal-content");
-  modal.append(modalContent);
-  const blurb = document.createElement("div");
-  blurb.setAttribute("class", "blurb");
-  blurb.innerText = blurbArr[stage];
-  modalContent.append(blurb);
-  const continueButton = document.createElement("button");
-  continueButton.innerText = "Continue";
-  modalContent.append(continueButton);
-  mainPanel.append(modal);
+
+  // //creation of the modal that will appear before each stage
+  // const modal = document.createElement("div");
+  // modal.setAttribute("class", "modal");
+  // modal.setAttribute("id", "modal");
+  // let blurb = document.createElement("div");
+  // blurb.setAttribute("class", "blurb");
+  // mainPanel.append(modal);
+  // const modalContent = document.createElement("div");
+  // modalContent.setAttribute("class", "modal-content");
+  // modal.append(modalContent);
+  // blurb.innerText = blurbArr[stage];
+  // modalContent.append(blurb);
+  // const continueButton = document.createElement("button");
+  // continueButton.innerText = "Continue";
+  // modalContent.append(continueButton);
+  if (stage > 1) {
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("blurb").innerText = blurbArr[stage];
+  }
 }
 
 function createZombies(stage) {
@@ -171,7 +197,7 @@ function shootZombie(shotLetter) {
         player.ammo += 7;
         player.lives += 1;
         stage++;
-        //initGame(stage); //call initGame again
+        createStage(stage); //call createStage again
       }
     }
   }
@@ -210,21 +236,23 @@ function zombieMotor() {
   }, 1000);
 }
 
-function startGame() {
+function startGame(stage) {
   // start the game, call zombieMotor
+  createZombies(stage);
   zombieMotor();
 }
 
 function initGame(stage) {
   createStage(stage); //create the game windows
-  createZombies(stage);
+  createModal();
 }
 
 const whatBtn = (e) => {
   switch (e.target.innerText) {
     case "Continue":
+      console.log("Continue clicked!");
       document.getElementById("modal").style.display = "none";
-      startGame();
+      startGame(stage);
       break;
 
     default:
