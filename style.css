@@ -111,3 +111,9 @@
   border: 1px solid #888;
   width: 80%;
 }
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}

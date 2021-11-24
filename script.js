@@ -1,12 +1,7 @@
 "use strict";
 
 /*  basic game logic
-    game gives a primer on hiragana involved
-    prompt() is like alert, 
-    but it opens up a window with a message AND a place to enter some text
-    player indicates ready
     Above for MVP, below for extras
-    add in 2 extra lanes for a total of 5
     high score stored in local storage?
     add in Ka, Ki, Ku, Ke, Ko, etc
     Special zombies with top ups of ammo, life?
@@ -115,22 +110,8 @@ function createStage(stage) {
   stats.innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   controlPanel.appendChild(stats);
 
-  // //creation of the modal that will appear before each stage
-  // const modal = document.createElement("div");
-  // modal.setAttribute("class", "modal");
-  // modal.setAttribute("id", "modal");
-  // let blurb = document.createElement("div");
-  // blurb.setAttribute("class", "blurb");
-  // mainPanel.append(modal);
-  // const modalContent = document.createElement("div");
-  // modalContent.setAttribute("class", "modal-content");
-  // modal.append(modalContent);
-  // blurb.innerText = blurbArr[stage];
-  // modalContent.append(blurb);
-  // const continueButton = document.createElement("button");
-  // continueButton.innerText = "Continue";
-  // modalContent.append(continueButton);
   if (stage > 1) {
+    // modify the blurb block for subsequent stages
     document.getElementById("modal").style.display = "block";
     document.getElementById("blurb").innerText = blurbArr[stage];
   }
@@ -187,17 +168,24 @@ function shootZombie(shotLetter) {
           "zombie with charVal removed " + zombieArr[i].characterValue
         );
         zombieArr.splice(i, 1);
-        document.querySelector(`#zombie${shotLetter}`).remove();
+        document
+          .querySelector(`#zombie${shotLetter}`)
+          .setAttribute("class", "hidden zombie"); //.hidden fade out effect
         player.points += 100;
         document.querySelector(
           "#stats"
         ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
       }
       if (zombieArr.length === 0) {
+        const countHidden = document.querySelectorAll(".hidden").length;
+        for (let j = 0; j < countHidden; j++) {
+          //clean up all the .hidden
+          document.querySelector(".hidden").remove();
+        }
         player.ammo += 7;
         player.lives += 1;
         stage++;
-        createStage(stage); //call createStage again
+        createStage(stage); //call createStage again to reset playPanel
       }
     }
   }
