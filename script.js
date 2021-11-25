@@ -61,6 +61,13 @@ const blurbArr = [
   "You are travelling alone in Tokyo on an Japanese Language immersion trip. It's a really fun trip until one morning, you step out of your AirBnb and find the streets deserted except for zombies! With your quick wits you notice that each zombie is holding a card with Hiragana (Japanese alphabet) in its left hand and identifying the Hiragana kils the zombie. With your trusty Hiragana flashcards in hand, you set out to find a way out of the city...",
   "blurb2",
   "blurb3",
+  "blurb4",
+  "blurb5",
+  "blurb6",
+  "blurb7",
+  "blurb8",
+  "blurb9",
+  "blurb10",
 ]; //to store the  blurbs for each stage
 let timeout = 0; //var to prevent infinite loops in zombieMotor
 let stage = 1;
@@ -110,6 +117,10 @@ function createModal() {
   blurb.setAttribute("id", "blurb");
   blurb.innerText = blurbArr[stage];
   modalContent.append(blurb);
+  const hiraganaChart = document.createElement("div");
+  hiraganaChart.setAttribute("id", "hiraganaChart");
+  hiraganaChart.innerHTML = `<img class="hiraSticker" src="images/${stage}.jpeg"/>`;
+  modalContent.append(hiraganaChart);
   const continueButton = document.createElement("button");
   continueButton.setAttribute("class", "button");
   continueButton.innerText = "Continue";
@@ -167,6 +178,9 @@ function createStage(stage) {
     document.getElementById("modal").style.display = "block";
     document.getElementById("stageH2").innerText = "Stage " + stage;
     document.getElementById("blurb").innerText = blurbArr[stage];
+    document.getElementById(
+      "hiraganaChart"
+    ).innerHTML = `<img class="hiraSticker" src="images/${stage}.jpeg"/>`;
   }
 }
 
@@ -206,7 +220,7 @@ function playerBitten() {
     "#stats"
   ).innerText = `Player Lives: ${player.lives} Ammo left: ${player.ammo} Points: ${player.points}`;
   if (player.lives === 0) {
-    setTimeout(() => alert("Player has died! Game over"), 0);
+    alert("Player has died! Game over");
   }
 }
 
@@ -242,6 +256,7 @@ function shootZombie(shotLetter) {
           document.querySelector(".hidden").remove();
         }
         stage++;
+        timeout = 0;
         player.ammo += stage * 7;
         player.lives += 1;
         createStage(stage); //call createStage again to reset playPanel
