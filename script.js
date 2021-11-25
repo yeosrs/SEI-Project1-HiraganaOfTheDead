@@ -1,12 +1,5 @@
 "use strict";
 
-/*  basic game logic
-    Above for MVP, below for extras
-    high score stored in local storage?
-    add in Ka, Ki, Ku, Ke, Ko, etc
-    Special zombies with top ups of ammo, life?
-    Boss monsters that have multiple hiraganas, gain life if wrong hiragana pressed
-*/
 const hiraganaArr = [
   "a",
   "i",
