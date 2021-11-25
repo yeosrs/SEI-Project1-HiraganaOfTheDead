@@ -58,11 +58,17 @@
 }
 
 .spacerRow {
-  height: 50%;
+  height: 20%;
   /* border: 1px solid white; */
 }
 
 .hirBtn {
+  margin-bottom: 1em;
+  padding: 5px 30px;
+  border-radius: 7px;
+}
+
+.button {
   margin-bottom: 1em;
   padding: 5px 30px;
   border-radius: 7px;
@@ -79,6 +85,28 @@
   position: relative;
 }
 
+.zombie1 {
+  height: 200px;
+  width: 120px;
+  /* background-color: indigo; */
+  color: black;
+  background-image: url("/images/zombie.jpeg");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+.zombie2 {
+  height: 300px;
+  width: 180px;
+  /* background-color: indigo; */
+  color: black;
+  background-image: url("/images/zombie.jpeg");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
 #stats {
   color: aquamarine;
   border: 1px solid white;
@@ -87,7 +115,7 @@
 .hiraSticker {
   width: 70%;
   position: absolute;
-  bottom: 0;
+  bottom: 20%;
 }
 
 .modal {

@@ -96,17 +96,22 @@ function createModal() {
   const modal = document.createElement("div");
   modal.setAttribute("class", "modal");
   modal.setAttribute("id", "modal");
-  const blurb = document.createElement("div");
-  blurb.setAttribute("class", "blurb");
-  blurb.setAttribute("id", "blurb");
+  const stageH2 = document.createElement("h2");
+  stageH2.setAttribute("id", "stageH2");
+  stageH2.innerText = "Stage " + stage;
   mainPanel.append(modal);
   const modalContent = document.createElement("div");
   modalContent.setAttribute("class", "modal-content");
   modalContent.setAttribute("id", "modal-content");
+  modalContent.append(stageH2);
   modal.append(modalContent);
+  const blurb = document.createElement("div");
+  blurb.setAttribute("class", "blurb");
+  blurb.setAttribute("id", "blurb");
   blurb.innerText = blurbArr[stage];
   modalContent.append(blurb);
   const continueButton = document.createElement("button");
+  continueButton.setAttribute("class", "button");
   continueButton.innerText = "Continue";
   modalContent.append(continueButton);
 }
@@ -158,8 +163,9 @@ function createStage(stage) {
   controlPanel.appendChild(stats);
 
   if (stage > 1) {
-    // modify the blurb block for subsequent stages
+    // modify the modalContent block for subsequent stages
     document.getElementById("modal").style.display = "block";
+    document.getElementById("stageH2").innerText = "Stage " + stage;
     document.getElementById("blurb").innerText = blurbArr[stage];
   }
 }
@@ -175,7 +181,13 @@ function createZombies(stage) {
     // create css equivalents of zombies,
     // and assign them in row according to their counter so player can see how far they are,
     // and assign them random positions in their row
-    zombieCSS.setAttribute("class", "zombie");
+    if (zombie.counter < 10 && zombie.counter >= 5) {
+      zombieCSS.setAttribute("class", "zombie1");
+    } else if (zombie.counter < 5) {
+      zombieCSS.setAttribute("class", "zombie2");
+    } else {
+      zombieCSS.setAttribute("class", "zombie");
+    }
     zombieCSS.setAttribute("id", `zombie${hiraganaArr[i]}`);
     zombieCSS.innerText = hiraganaArr[i];
     const hiraSticker = document.createElement("div");
@@ -251,6 +263,15 @@ function zombieMotor() {
           .appendChild(
             document.querySelector(`#zombie${zombieArr[i].characterValue}`)
           );
+      }
+      if (zombieArr[i].counter < 10 && zombieArr[i].counter >= 5) {
+        document
+          .querySelector(`#zombie${zombieArr[i].characterValue}`)
+          .setAttribute("class", "zombie1");
+      } else if (zombieArr[i].counter < 5) {
+        document
+          .querySelector(`#zombie${zombieArr[i].characterValue}`)
+          .setAttribute("class", "zombie2");
       }
       console.log(
         "Zombie " +
