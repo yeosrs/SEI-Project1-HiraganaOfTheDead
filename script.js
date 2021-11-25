@@ -59,15 +59,15 @@ const zombieArr = []; //to store created zombies
 const blurbArr = [
   "",
   "You are travelling alone in Tokyo on an Japanese Language immersion trip. It's a really fun trip until one morning, you step out of your AirBnb and find the streets deserted except for zombies! With your quick wits you notice that each zombie is holding a card with Hiragana (Japanese alphabet) in its left hand and identifying the Hiragana kils the zombie. With your trusty Hiragana flashcards in hand, you set out to find a way out of the city...",
-  "blurb2",
-  "blurb3",
-  "blurb4",
-  "blurb5",
-  "blurb6",
-  "blurb7",
-  "blurb8",
-  "blurb9",
-  "blurb10",
+  "Man, that was close! You barely manage to identify the 5 zombies and dash off to the nearest JR line station, but the station is likewise deserted, and after waiting for an hour, you realise that no trains are running. You hear zombies closing in. You pack your belongings and look at your flashcards one more time before stepping out of the station...",
+  "You slam the door behind you, out of breath. Your stomach growls. It’s been 16 hours since your last meal and you’re ravenous. Plus all that running around has made you thirsty. You look for a kombini (convenience store) on Google Maps and there’s 2 around the corner! You open the door to head towards the konbinis..",
+  "Eek! You barely made it back to the room. That’s a lot of zombies around that street! That’s the last time you’ll be rushing out of any door, hungry or not. You look around the room to find another exit and spot another door in the darkness at the other wall. You put your ear to the door, and hearing no sound on the other side, inch it open and take a peek…",
+  "You finally reach the konbini via its back door, but it looks like others have been in it before you, and the shelves are mostly empty, only a few morsels of food, and the drinks fridge is completely empty, except for a few packets of milk that have spilled most of their contents on the floor. You need to get to the other konbini to find more food and drink...",
+  "You finally lose the zombies chasing you, and enter the konbini. Your luck is much better here, it appears to be fully stocked. You gorge yourself on the food, then you remember that to survive, you need to keep on running. You decide to hunker down in the konbini for the night as it’s getting dark outside. You look around for a blanket to keep warm..",
+  "You huff and puff as the noises of the zombies fade away. You had spent a fitful night, with snatches of sleep. You woke up at 4am to use the toilet, but flushing the toilet alerted a horde of zombies and you ran away for your life. Your phone battery is getting low, and you need a charger. You curse yourself for getting the EMG Emperor with its proprietary charger head. You spot a Yodobashi Camera up ahead and head in….. No luck. Lots of USB-C chargers but not yours. There’s a Yamada Denki 2 blocks south...",
+  "You make it to the Yamada Denki. Even better, they have your charger! You feel bad for taking it, but it’s an emergency. With your phone recharged, you find out that people are gathering at Narita Airport, and there’s an evacuation going on. However the bad news is Narita is about 70km east of where you are, and it seems there are a lot of zombies on the way. You need to find a mode of transport..",
+  "You manage to find a car with gas AND the keys in it, and drive a mostly uneventful trip to Narita Airport. However you need to get out to proceed on foot because the gate to the tarmac is too narrow to drive the car in….",
+  "One last batch of zombies. You can see the waiting jet in the distance, if only you can get past this last group….",
 ]; //to store the  blurbs for each stage
 let timeout = 0; //var to prevent infinite loops in zombieMotor
 let stage = 1;
@@ -145,7 +145,7 @@ function createStage(stage) {
     spacerRow.setAttribute("class", "spacerRow");
     playPanel.appendChild(spacerRow);
     for (let i = 15; i > -1; i--) {
-      // split playPanel into 10 divs to mimic rows
+      // split playPanel into 15 divs to mimic rows
       const divRow = document.createElement("div");
       divRow.setAttribute("class", "playRow");
       divRow.setAttribute("id", `row${i}`);
