@@ -35,7 +35,7 @@
   left: 0;
   right: 0;
   top: 0;
-  background-image: url("../images/emptyStation1.jpeg");
+  background-image: url("./images/emptyStation1.jpeg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -73,7 +73,7 @@
   width: 60px;
   /* background-color: indigo; */
   color: black;
-  background-image: url("../images/zombie.jpeg");
+  background-image: url("./images/zombie.jpeg");
   background-position: center;
   background-size: cover;
   position: relative;

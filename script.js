@@ -7,7 +7,54 @@
     Special zombies with top ups of ammo, life?
     Boss monsters that have multiple hiraganas, gain life if wrong hiragana pressed
 */
-const hiraganaArr = ["a", "i", "u", "e", "o", "ka", "ki", "ku", "ke", "ko"]; // to store available hiragana
+const hiraganaArr = [
+  "a",
+  "i",
+  "u",
+  "e",
+  "o",
+  "ka",
+  "ki",
+  "ku",
+  "ke",
+  "ko",
+  "sa",
+  "shi",
+  "su",
+  "se",
+  "so",
+  "ta",
+  "chi",
+  "tsu",
+  "te",
+  "to",
+  "na",
+  "ni",
+  "nu",
+  "ne",
+  "no",
+  "ha",
+  "hi",
+  "fu",
+  "he",
+  "ho",
+  "ma",
+  "mi",
+  "mu",
+  "me",
+  "mo",
+  "ra",
+  "ri",
+  "ru",
+  "re",
+  "ro",
+  "ya",
+  "yu",
+  "yo",
+  "wa",
+  "wo",
+  "n",
+]; // to store available hiragana
 const zombieArr = []; //to store created zombies
 const blurbArr = [
   "",
@@ -182,9 +229,9 @@ function shootZombie(shotLetter) {
           //clean up all the .hidden
           document.querySelector(".hidden").remove();
         }
-        player.ammo += 7;
-        player.lives += 1;
         stage++;
+        player.ammo += stage * 7;
+        player.lives += 1;
         createStage(stage); //call createStage again to reset playPanel
       }
     }
